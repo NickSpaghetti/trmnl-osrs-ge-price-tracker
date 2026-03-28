@@ -1,62 +1,141 @@
 {% assign id = trmnl.plugin_settings.custom_fields_values.item_id %}
-
 <div class="layout layout--col gap--space-between">
-  <div class="grid grid--cols-2">
-    <div class="item">
-      <div class="content">
-        <img class="image" src="{{ IDX_0.item.icon_large }}" alt="{{ item.name }} Icon" style="height: 160px; width: auto;">
-      </div>
-    </div>
-    <div class="item">
-      <div class="content">
-        <span class="value value--medium">{{ IDX_0.item.name }}</span>
+  <div class="grid">
+    <div class="row">
+      <div class="grid">
+        <div class="item col--span-2">
+          <div class="meta"></div>
+          <div class="content">
+            <span class="value value--small value--tnums">{{ IDX_1.data[id].high | number_with_delimiter }}</span>
+            <span class="label mb--1">High</span>
+          </div>
+        </div>
+
+        <div class="item col--span-1">
+          <div class="meta"></div>
+          <div class="content">
+            <span class="value value--small value--tnums">{{ IDX_0.item.today.price | number_with_delimiter }}</span>
+            <span class="label mb--1">Price</span>
+          </div>
+        </div>
+
+        <div class="item col--span-1">
+          <div class="meta"></div>
+          <div class="content">
+            <span class="value value--small value--tnums">{{ IDX_0.item.day30.change }}</span>
+            <span class="label mb--1">30d Change</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="w-full b-h-gray-5"></div>
+  <div class="border--h-5 w--full"></div>
 
-  <div class="grid grid--cols-2 grid--sm-cols-4">
-    <div class="item">
-      <div class="content">
-        <span class="value value--small">{{ IDX_1.data[id].high | number_with_delimiter }}</span>
-        <span class="label">Today's High</span>
-      </div>
-    </div>
+  <div class="grid">
+    <div class="row">
+      <div class="grid">
+        <div class="item col--span-2">
+          <div class="meta"></div>
+          <div class="content">
+            <span class="value value--small value--tnums">{{ IDX_1.data[id].low | number_with_delimiter }}</span>
+            <span class="label mb--1">Low</span>
+          </div>
+        </div>
 
-    <div class="item">
-      <div class="content">
-        <span class="value value--small">{{ IDX_1.data[id].low | number_with_delimiter }}</span>
-        <span class="label">Today's Low</span>
-      </div>
-    </div>
+        <div class="item col--span-1">
+          <div class="meta"></div>
+          <div class="content">
+            <span class="value value--small value--tnums">{{ IDX_0.item.day90.change }}</span>
+            <span class="label mb--1">90d</span>
+          </div>
+        </div>
 
-    <div class="item">
-      <div class="content">
-        <span class="value value--small">{{ IDX_0.item.day30.change }}</span>
-        <span class="label">30d ({{ IDX_0.item.day30.trend }})</span>
-      </div>
-    </div>
-
-    <div class="item">
-      <div class="content">
-        <span class="value value--small">{{ IDX_0.item.day90.change }}</span>
-        <span class="label">90d ({{ IDX_0.item.day90.trend }})</span>
-      </div>
-    </div>
-
-    <div class="item">
-      <div class="content">
-        <span class="value value--small">{{ IDX_0.item.day180.change }}</span>
-        <span class="label">180d ({{ IDX_0.item.day180.trend }})</span>
-      </div>
-    </div>
-
-    <div class="item">
-      <div class="content">
-        <span class="value value--small">{{ IDX_0.item.today.price }}</span>
-        <span class="label">GE Today</span>
+        <div class="item col--span-1">
+          <div class="meta"></div>
+          <div class="content">
+            <span class="value value--small value--tnums">{{ IDX_0.item.day180.change }}</span>
+            <span class="label mb--1">180d</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+
+  <div id="market-chart" class="w--full" style="height: 200px;"></div>
+
+  <script src="https://trmnl.com/js/highcharts/12.3.0/highcharts.js"></script>
+  <script src="https://trmnl.com/js/highcharts/12.3.0/highcharts-more.js"></script>
+  
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+      try {
+        const dailyData = {{ IDX_2.daily | json }};
+        const averageData = {{ IDX_2.average | json }};
+        
+        const daily = Object.entries(dailyData).map(([ts, val]) => [Number(ts), val]).sort((a,b)=>a[0]-b[0]);
+        const average = Object.entries(averageData).map(([ts, val]) => [Number(ts), val]).sort((a,b)=>a[0]-b[0]);
+        
+        // Create range for the gray shaded area
+        const rangeData = daily.map((p, i) => [p[0], p[1], average[i] ? average[i][1] : p[1]]);
+
+        Highcharts.chart('market-chart', {
+          chart: { height: 200, spacing: [10, 10, 5, 10], backgroundColor: 'transparent' },
+          title: { text: null },
+          credits: { enabled: false },
+          legend: { enabled: false },
+          tooltip: { enabled: false },
+          xAxis: {
+            type: 'datetime',
+            gridLineWidth: 1,
+            gridLineDashStyle: 'dot',
+            gridLineColor: '#000000',
+            labels: { style: { fontSize: '14px', color: '#000000' } }
+          },
+          yAxis: {
+            title: { text: null },
+            gridLineWidth: 1,
+            gridLineDashStyle: 'shortdot',
+            gridLineColor: '#000000',
+            labels: { style: { fontSize: '14px', color: '#000000' } }
+          },
+          series: [
+            {
+              name: 'Range',
+              type: 'arearange',
+              data: rangeData,
+              lineWidth: 0,
+              color: '#e0e0e0',
+              fillOpacity: 0.5,
+              zIndex: 0
+            },
+            {
+              name: 'Daily',
+              type: 'spline',
+              data: daily,
+              lineWidth: 4,
+              color: '#000000',
+              zIndex: 2,
+              marker: { enabled: false }
+            },
+            {
+              name: 'Average',
+              type: 'spline',
+              data: average,
+              lineWidth: 2,
+              color: '#666666',
+              dashStyle: 'ShortDot',
+              zIndex: 1,
+              marker: { enabled: false }
+            }
+          ]
+        });
+      } catch (e) { console.error(e); }
+    });
+  </script>
+</div>
+
+<div class="title_bar">
+  <img class="image" src="{{ IDX_0.item.icon }}">
+  <span class="title">Grand Exchange: {{ IDX_0.item.name }}</span>
 </div>

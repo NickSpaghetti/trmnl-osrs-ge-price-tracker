@@ -5,7 +5,8 @@ dark_mode: 'no'
 static_data: ''
 polling_verb: get
 framework_version: latest
-polling_url: "https://secure.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item={{item_id}}\r\nhttps://prices.runescape.wiki/api/v1/osrs/latest?id={{item_id}}"
+serverless_language: 
+polling_url: "https://secure.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item={{item_id}}\r\nhttps://prices.runescape.wiki/api/v1/osrs/latest?id={{item_id}}\r\nhttps://secure.runescape.com/m=itemdb_rs/api/graph/{{item_id}}.json"
 polling_headers: user-agent=https://github.com/NickSpaghetti/trmnl-osrs-ge-price-tracker
 polling_body: ''
 id: 265824
@@ -24,4 +25,4 @@ custom_fields:
   github_url: https://github.com/NickSpaghetti
   learn_more_url: https://github.com/NickSpaghetti/trmnl-osrs-ge-price-trend
 name: OSRS GE Price Trend
-refresh_interval: 360
+refresh_interval: 60
