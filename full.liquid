@@ -3,27 +3,27 @@
   <div class="grid">
     <div class="row">
       <div class="grid">
-        <div class="item col--span-2">
+        <div class="item col--span-2 lg:col--span-2">
           <div class="meta"></div>
           <div class="content">
-            <span class="value value--small value--tnums">{{ IDX_1.data[id].high | number_with_delimiter }}</span>
-            <span class="label mb--1">High</span>
+            <span class="value value--small lg:value--base value--tnums">{{ IDX_1.data[id].high | number_with_delimiter }}</span>
+            <span class="label mb--1 lg:label--large">High</span>
           </div>
         </div>
 
         <div class="item col--span-1">
           <div class="meta"></div>
           <div class="content">
-            <span class="value value--small value--tnums">{{ IDX_0.item.today.price | number_with_delimiter }}</span>
-            <span class="label mb--1">Price</span>
+            <span class="value value--small lg:value--base value--tnums">{{ IDX_0.item.today.price | number_with_delimiter }}</span>
+            <span class="label mb--1 lg:label--large">Price</span>
           </div>
         </div>
 
         <div class="item col--span-1">
           <div class="meta"></div>
           <div class="content">
-            <span class="value value--small value--tnums">{{ IDX_0.item.day30.change }}</span>
-            <span class="label mb--1">30d Change</span>
+            <span class="value value--small lg:value--base value--tnums">{{ IDX_0.item.day30.change }}</span>
+            <span class="label mb--1 lg:label--large">30d Change</span>
           </div>
         </div>
       </div>
@@ -35,34 +35,34 @@
   <div class="grid">
     <div class="row">
       <div class="grid">
-        <div class="item col--span-2">
+        <div class="item col--span-2 lg:col--span-2">
           <div class="meta"></div>
           <div class="content">
-            <span class="value value--small value--tnums">{{ IDX_1.data[id].low | number_with_delimiter }}</span>
-            <span class="label mb--1">Low</span>
+            <span class="value value--small lg:value--base value--tnums">{{ IDX_1.data[id].low | number_with_delimiter }}</span>
+            <span class="label mb--1 lg:label--large"">Low</span>
           </div>
         </div>
 
         <div class="item col--span-1">
           <div class="meta"></div>
           <div class="content">
-            <span class="value value--small value--tnums">{{ IDX_0.item.day90.change }}</span>
-            <span class="label mb--1">90d</span>
+            <span class="value value--small lg:value--base value--tnums">{{ IDX_0.item.day90.change }}</span>
+            <span class="label mb--1 lg:label--large">90d</span>
           </div>
         </div>
 
         <div class="item col--span-1">
           <div class="meta"></div>
           <div class="content">
-            <span class="value value--small value--tnums">{{ IDX_0.item.day180.change }}</span>
-            <span class="label mb--1">180d</span>
+            <span class="value value--small lg:value--base value--tnums">{{ IDX_0.item.day180.change }}</span>
+            <span class="label mb--1 lg:label--large">180d</span>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div id="market-chart" class="w--full" style="height: 200px;"></div>
+  <div id="market-chart" class="w--full stretch-y"></div>
 
   <script src="https://trmnl.com/js/highcharts/12.3.0/highcharts.js"></script>
   <script src="https://trmnl.com/js/highcharts/12.3.0/highcharts-more.js"></script>
@@ -70,34 +70,50 @@
   <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function() {
       try {
-        const dailyData = {{ IDX_2.daily | json }};
-        const averageData = {{ IDX_2.average | json }};
+        var dailyData = {{ IDX_2.daily | json }};
+        var averageData = {{ IDX_2.average | json }};
         
-        const daily = Object.entries(dailyData).map(([ts, val]) => [Number(ts), val]).sort((a,b)=>a[0]-b[0]);
-        const average = Object.entries(averageData).map(([ts, val]) => [Number(ts), val]).sort((a,b)=>a[0]-b[0]);
+        var daily = Object.entries(dailyData).map(([ts, val]) => [Number(ts), val]).sort((a,b)=>a[0]-b[0]);
+        var average = Object.entries(averageData).map(([ts, val]) => [Number(ts), val]).sort((a,b)=>a[0]-b[0]);
         
         // Create range for the gray shaded area
-        const rangeData = daily.map((p, i) => [p[0], p[1], average[i] ? average[i][1] : p[1]]);
-
+        var rangeData = daily.map((p, i) => [p[0], p[1], average[i] ? average[i][1] : p[1]]);
+        
+        //TRMNL X settings
+        var isLarge = daily.map((p,i) => [p[0],p[i],average[i]?average[i][1]:p[1]])
+        var screenElement = document.querySelector('.screen')
+        var baseFontSize = isLarge ? 18:14
+        var lineWidth = isLarge ? 5:4
         Highcharts.chart('market-chart', {
-          chart: { height: 200, spacing: [10, 10, 5, 10], backgroundColor: 'transparent' },
+          chart: { height: null, spacing: [10, 10, 5, 10], backgroundColor: 'transparent',animation:false },
           title: { text: null },
           credits: { enabled: false },
           legend: { enabled: false },
           tooltip: { enabled: false },
+          plotOptions: {
+            serires: {
+              animation: false,
+              enableMouseTracking: false,
+              states: {hover: {enabled: false} }
+            }
+          },
           xAxis: {
             type: 'datetime',
             gridLineWidth: 1,
             gridLineDashStyle: 'dot',
             gridLineColor: '#000000',
-            labels: { style: { fontSize: '14px', color: '#000000' } }
+            lineWidth: 0,
+            tickWidth: 1,
+            tickLenght: 0,
+            labels: { style: { fontSize: `${baseFontSize}px`, color: '#000000' } }
           },
           yAxis: {
             title: { text: null },
             gridLineWidth: 1,
             gridLineDashStyle: 'shortdot',
             gridLineColor: '#000000',
-            labels: { style: { fontSize: '14px', color: '#000000' } }
+            tickAmount: 5,
+            labels: { style: { fontSize: `${baseFontSize}px`, color: '#000000' } }
           },
           series: [
             {
@@ -113,7 +129,7 @@
               name: 'Daily',
               type: 'spline',
               data: daily,
-              lineWidth: 4,
+              lineWidth: lineWidth,
               color: '#000000',
               zIndex: 2,
               marker: { enabled: false }

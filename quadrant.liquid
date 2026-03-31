@@ -1,53 +1,53 @@
 {% assign id = trmnl.plugin_settings.custom_fields_values.item_id %}
 
-<div class="layout layout--col gap--space-between">
-  <div class="grid grid--cols-2">
+<div class="layout layout--col stretch-y">
+  <div class="grid grid--cols-2 gap--small lg:gap--large">
     
     <div class="item border--0">
       <div class="meta"></div>
       <div class="content flex--row gap--small">
-        <span class="label">High:</span>
-        <span class="value" style="font-size: 13px;">{{ IDX_1.data[id].high | number_with_delimiter }}</span>
+        <span class="label lg:label--large">High:</span>
+        <span class="value value--xxsmall lg:value--xsmall">{{ IDX_1.data[id].high | number_with_delimiter }}</span>
       </div>
     </div>
 
     <div class="item border--0">
       <div class="meta"></div>
       <div class="content flex--row gap--small">
-        <span class="label">Low:</span>
-        <span class="value" style="font-size: 13px;">{{ IDX_1.data[id].low | number_with_delimiter }}</span>
+        <span class="label lg:label--large">Low:</span>
+        <span class="value value--xxsmall lg:value--xsmall">{{ IDX_1.data[id].low | number_with_delimiter }}</span>
       </div>
     </div>
 
     <div class="item border--0">
       <div class="meta"></div>
       <div class="content flex--row gap--small">
-        <span class="label">30D:</span>
-        <span class="value" style="font-size: 13px;">{{ IDX_0.item.day30.change }}</span>
+        <span class="label lg:label--large">30D:</span>
+        <span class="value value--xxsmall lg:value--xsmall" style="font-size: 13px;">{{ IDX_0.item.day30.change }}</span>
       </div>
     </div>
 
     <div class="item border--0">
       <div class="meta"></div>
       <div class="content flex--row gap--small">
-        <span class="label">90D:</span>
-        <span class="value" style="font-size: 13px;">{{ IDX_0.item.day90.change }}</span>
+        <span class="label lg:label--large">90D:</span>
+        <span class="value value--xxsmall lg:value--xsmall" style="font-size: 13px;">{{ IDX_0.item.day90.change }}</span>
       </div>
     </div>
 
     <div class="item border--0">
       <div class="meta"></div>
       <div class="content flex--row gap--small">
-        <span class="label">180D:</span>
-        <span class="value" style="font-size: 13px;">{{ IDX_0.item.day180.change }}</span>
+        <span class="label lg:label--large">180D:</span>
+        <span class="value value--xxsmall lg:value--xsmall" style="font-size: 13px;">{{ IDX_0.item.day180.change }}</span>
       </div>
     </div>
 
     <div class="item border--0">
       <div class="meta"></div>
       <div class="content flex--row gap--small">
-        <span class="label">Price:</span>
-        <span class="value" style="font-size: 13px;">{{ IDX_0.item.today.price }}</span>
+        <span class="label lg:label--large">Price:</span>
+        <span class="value value--xxsmall lg:value--xsmall" style="font-size: 13px;">{{ IDX_0.item.today.price }}</span>
       </div>
     </div>
     

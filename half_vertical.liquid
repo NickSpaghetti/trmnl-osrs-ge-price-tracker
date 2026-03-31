@@ -6,7 +6,7 @@
       <div class="item border--0">
         <div class="meta"></div>
         <div class="content text--center" style="margin-bottom: -15px;">
-          <img class="image" src="{{ IDX_0.item.icon_large }}" alt="{{ IDX_0.item.name }}" style="height: 130px; width: auto; display: inline-block; vertical-align: bottom;">
+          <img src="{{ IDX_0.item.icon_large }}" alt="{{ IDX_0.item.name }}" class="image h--[60cqh] lg:h--[60cqh]" style="width: auto; display: inline-block; vertical-align: bottom;">
         </div>
       </div>
     </div>
@@ -18,48 +18,48 @@
     <div class="item border--0">
       <div class="meta"></div>
       <div class="content">
-        <span class="label">High</span>
-        <span class="value value--xsmall value--tnums">{{ IDX_1.data[id].high | number_with_delimiter }}</span>
+        <span class="label lg:label--large">High</span>
+        <span class="value value--xsmall lg:label--large value--tnums">{{ IDX_1.data[id].high | number_with_delimiter }}</span>
       </div>
     </div>
 
     <div class="item border--0">
       <div class="meta"></div>
       <div class="content">
-        <span class="label">Low</span>
-        <span class="value value--xsmall value--tnums">{{ IDX_1.data[id].low | number_with_delimiter }}</span>
+        <span class="label lg:label--large">Low</span>
+        <span class="value value--xsmall lg:label--large value--tnums">{{ IDX_1.data[id].low | number_with_delimiter }}</span>
       </div>
     </div>
 
     <div class="item border--0">
       <div class="meta"></div>
       <div class="content">
-        <span class="label">30D</span>
-        <span class="value value--xsmall">{{ IDX_0.item.day30.change }}</span>
+        <span class="label lg:label--large">30D</span>
+        <span class="value value--xsmall lg:label--large">{{ IDX_0.item.day30.change }}</span>
       </div>
     </div>
 
     <div class="item border--0">
       <div class="meta"></div>
       <div class="content">
-        <span class="label">90D</span>
-        <span class="value value--xsmall">{{ IDX_0.item.day90.change }}</span>
+        <span class="label lg:label--large">90D</span>
+        <span class="value value--xsmall lg:label--large">{{ IDX_0.item.day90.change }}</span>
       </div>
     </div>
 
     <div class="item border--0">
       <div class="meta"></div>
       <div class="content">
-        <span class="label">180D</span>
-        <span class="value value--xsmall">{{ IDX_0.item.day180.change }}</span>
+        <span class="label lg:label--large">180D</span>
+        <span class="value value--xsmall lg:label--large">{{ IDX_0.item.day180.change }}</span>
       </div>
     </div>
 
     <div class="item border--0">
       <div class="meta"></div>
       <div class="content">
-        <span class="label">GE Price</span>
-        <span class="value value--xsmall">{{ IDX_0.item.today.price }}</span>
+        <span class="label lg:label--large">GE Price</span>
+        <span class="value value--xsmall lg:label--large">{{ IDX_0.item.today.price }}</span>
       </div>
     </div>
   </div>
