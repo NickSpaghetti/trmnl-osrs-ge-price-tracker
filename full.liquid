@@ -1,3 +1,4 @@
+{% assign chart_id = "market-chart-" | append_random %}
 {% assign id = trmnl.plugin_settings.custom_fields_values.item_id %}
 <div class="layout layout--col gap--space-between">
   <div class="grid">
@@ -62,7 +63,7 @@
     </div>
   </div>
 
-  <div id="market-chart" class="w--full stretch-y"></div>
+  <div id="{{ chart_id }}" class="w--full stretch-y"></div>
 
   <script src="https://trmnl.com/js/highcharts/12.3.0/highcharts.js"></script>
   <script src="https://trmnl.com/js/highcharts/12.3.0/highcharts-more.js"></script>
@@ -84,7 +85,7 @@
     var isLarge = screenElement && screenElement.classList.contains('screen--lg')
     var baseFontSize = isLarge ? 18:14
     var lineWidth = isLarge ? 5:4
-    Highcharts.chart('market-chart', {
+    Highcharts.chart('{{ chart_id }}', {
       chart: { height: null, spacing: [10, 10, 5, 10], backgroundColor: 'transparent',animation:false },
       title: { text: null },
       credits: { enabled: false },
